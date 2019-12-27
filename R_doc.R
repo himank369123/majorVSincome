@@ -1,8 +1,9 @@
-devtools::install_github("jhudsl/collegeIncome")
+#devtools::install_github("jhudsl/collegeIncome")
 library(collegeIncome)
-data(college)
-devtools::install_github("jhudsl/matahari")
+#devtools::install_github("jhudsl/matahari")
 library(matahari)
+data(college)
+head(college)
 dance_start(value = FALSE, contents = FALSE)
 str(college)
 fit<-lm(median~major_category,data=college)
@@ -18,3 +19,5 @@ summary(fit)$coef[,4]<0.05
 
 #the p values suggest that the medians are not significantly different.
 dance_save("C:/Users/himank/Documents/college_major_analysis.rds")
+
+dance_remove()

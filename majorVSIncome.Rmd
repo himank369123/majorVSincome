@@ -1,0 +1,59 @@
+---
+title: "College Major vs Income"
+author: "Himank Jain"
+date: "27/12/2019"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## College Major vs Income:
+
+We try to answer below questions:
+
+Are incomes of individuals from different majors in college differ significantly from each other or not?
+If so , Which Major pays higher and which pays Lower?
+
+
+```{r cars}
+#devtools::install_github("jhudsl/collegeIncome")
+library(collegeIncome)
+#devtools::install_github("jhudsl/matahari")
+library(matahari)
+```
+
+## EDA:
+
+How does the data look like?
+
+```{r pressure, echo=FALSE}
+data(college)
+head(college)
+dance_start(value = FALSE, contents = FALSE)
+str(college)
+hist(college$median)
+```
+Missing Values?
+and Aggregating mean of income with respect to college majors
+```{r}
+any(is.na(college$major_category))
+factor(college$major_category)
+df<-aggregate(college$median~college$major_category,FUN = mean)
+names(df)<-c("major","medsal")
+par(mfrow=c(1,1))
+barplot(df$medsal,col='blue')
+```
+The Linear model:
+```{r}
+fit<-lm(median~major_category,data=college)
+summary(fit)$coef
+summary(fit)$coef[,4]<0.05
+```
+#the p values suggest that the medians are not significantly different.
+
+```{r}
+dance_save("college_major_analysis.rds")
+dance_remove()
+```
